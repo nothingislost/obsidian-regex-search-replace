@@ -3,6 +3,7 @@ import { around } from "monkey-around";
 
 export default class RegExSearch extends Plugin {
   async onload() {
+	this.registerMonkeyPatches = this.registerMonkeyPatches.bind(this)
     this.registerEvent(this.app.workspace.on("layout-change", this.registerMonkeyPatches));
   }
 
