@@ -16,7 +16,9 @@
     "@rollup/plugin-typescript": "^8.2.1",
     "@types/node": "^14.14.37",
     "obsidian": "^0.12.0",
+    "monkey-around": "^2.1.0",
     "rollup": "^2.32.1",
+    "rollup-plugin-copy": "^3.3.0",
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
   }
