@@ -1,44 +1,46 @@
-import { View, Constructor, MarkdownView, Plugin } from "obsidian";
+import { Plugin, MarkdownSourceView } from "obsidian";
 import { around } from "monkey-around";
 
+declare module "obsidian" {
+  interface MarkdownSourceView {
+    showSearch(replace?: boolean): void;
+  }
+}
+
 export default class RegExSearch extends Plugin {
-  async onload() {
-	this.registerMonkeyPatches = this.registerMonkeyPatches.bind(this)
-    this.registerEvent(this.app.workspace.on("layout-change", this.registerMonkeyPatches));
+  onload() {
+    const plugin = this,
+      patchGetQuery = around(MarkdownSourceView.prototype, {
+        showSearch(old) {
+          return function () {
+            plugin.register(
+              around(this.search.constructor.prototype, {
+                getQuery(old) {
+                  return function () {
+                    let query = this.searchInputEl.value;
+                    const isRE = query.match(/^\/(.*)\/([a-z]*)$/);
+                    if (isRE) {
+                      try {
+                        // allow for case insensitive regex using /foo/i
+                        query = new RegExp(isRE[1], isRE[2].indexOf("i") == -1 ? "" : "i");
+                      } catch (e) {} // Not a regular expression after all, fallback to default method
+                    } else {
+					  console.log('old call')
+                      query = old.call(this);
+                    }
+                    return query;
+                  };
+                },
+              })
+            );
+            patchGetQuery();
+            return old.apply(this);
+          };
+        },
+      });
+
+    this.register(patchGetQuery);
   }
 
-  onunload() {
-	this.app.workspace.off("layout-change", this.registerMonkeyPatches)
-  }
-
-  getViewsOfType<T extends View>(type: Constructor<T>): Array<T> {
-    return this.app.workspace
-      .getLeavesOfType("markdown")
-      .filter(l => l && l.view && l.view instanceof type)
-      .map(l => l.view as T);
-  }
-
-  registerMonkeyPatches() {
-    this.getViewsOfType(MarkdownView).forEach(view => {
-      this.register(
-        around((view as any).sourceMode.search, {
-          getQuery(next) {
-            return function () {
-              let query = this.searchInputEl.value;
-              const isRE = query.match(/^\/(.*)\/([a-z]*)$/);
-              if (isRE) {
-                try {
-                  // allow for case insensitive regex using /foo/i
-                  query = new RegExp(isRE[1], isRE[2].indexOf("i") == -1 ? "" : "i");
-                } catch (e) {} // Not a regular expression after all, fallback to default method
-              } else {
-                query = next.call(this);
-              }
-              return query;
-            };
-          },
-        })
-      );
-    });
-  }
+  onunload() {}
 }

@@ -1,6 +1,10 @@
-## Obsidian RegEx Search
+## Obsidian Regex Search & Replace
 
-This plugin enhances the default Obsidian document search to include basic RegEx functionality
+This plugin enhances the default Obsidian document search & replace functionality to include basic Regex queries
+
+### Warning!
+
+- This plugin is in an early testing phase. *Please backup any documents before attempting to do a regex search & replace*. 
 
 ### Features
 
@@ -18,8 +22,10 @@ This plugin enhances the default Obsidian document search to include basic RegEx
 
 - Replacing text using capture groups
 - Advanced RegEx Mode modifiers
+- Regex searching in preview mode
+- Mobile usage
 
 ### Manually installing the plugin
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/obsidian-regex-search/`.
+- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/obsidian-regex-search-replace/`.
 

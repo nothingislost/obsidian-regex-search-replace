@@ -1,10 +1,10 @@
 {
 	"id": "obsidian-regex-search",
-	"name": "Obsidian RegEx Search",
-	"version": "0.0.1",
+	"name": "Regex Search & Replace",
+	"version": "0.0.2",
 	"minAppVersion": "0.9.12",
-	"description": "This is a sample plugin for Obsidian. This plugin demonstrates some of the capabilities of the Obsidian API.",
+	"description": "This plugin enhances the default Obsidian document search & replace functionality to include basic regex queries",
 	"author": "NothingIsLost",
-	"authorUrl": "https://obsidian.md/about",
+	"authorUrl": "https://github.com/nothingislost",
 	"isDesktopOnly": true
 }
