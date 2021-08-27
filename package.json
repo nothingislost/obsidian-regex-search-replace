@@ -1,6 +1,6 @@
 {
   "name": "obsidian-regex-search-replace",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This plugin enhances the default Obsidian document search & replace functionality to include basic regex queries",
   "main": "main.js",
   "scripts": {
